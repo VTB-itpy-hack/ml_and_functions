@@ -49,6 +49,6 @@ def sort_coordinates(input_lat, input_lon, coordinates):
 
 input_lat = 55.7522  
 input_lon = 37.6156 
-#input_coordinates = [(55.7517, 37.6177), (55.7536, 37.6183), (55.7501, 37.6156), (55.7520, 37.5159)]
+
 sorted_coordinates = sort_coordinates(input_lat, input_lon, tuple_list)
 print(sorted_coordinates)

@@ -3,12 +3,24 @@ import re
 import math
 
 new_list1 = []
+list_for_rko = []
+list_for_kep = []
+
+input_lat = 55.7522  
+input_lon = 37.6156 
 
 with open('offices.csv', newline='', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         new_list1.append(row['latitude'])
         new_list1.append(row['longitude'])
+        
+        list_for_rko.append(row['rko'])
+        
+        list_for_kep.append(row['kep'])
+        
+#print(list_for_rko)       
+#print(list_for_kep) 
         
 
 def remove_empty_values(lst):
@@ -27,8 +39,10 @@ def split_list(lst):
     return tuple_list
 
 tuple_list = split_list(new_lst)
-#print((tuple_list))
-
+#print(len(tuple_list))
+tuple_list1 = []
+for i in tuple_list:
+    tuple_list1.append(i)
 ######
 
 def calculate_distance(lat1, lon1, lat2, lon2):
@@ -47,8 +61,50 @@ def sort_coordinates(input_lat, input_lon, coordinates):
     return sorted_coordinates
 
 
-input_lat = 55.7522  
-input_lon = 37.6156 
 
 sorted_coordinates = sort_coordinates(input_lat, input_lon, tuple_list)
-print(sorted_coordinates)
+#print(sorted_coordinates)
+
+######
+list_for_rko = list(filter(None, list_for_rko))
+#print(len(list_for_rko))
+
+list_for_kep = list(filter(None, list_for_kep))
+#print(len(list_for_kep))
+
+
+def remove_elements(first_list, second_list, value):
+    indices_to_remove = [i for i, element in enumerate(second_list) if element == value]
+    for index in reversed(indices_to_remove):
+        del first_list[index]
+    return first_list
+
+first_list = tuple_list
+second_list = list_for_rko
+value_to_remove = 'нет РКО'
+
+new_list = remove_elements(first_list, second_list, value_to_remove)
+
+sorted_coordinates_rko = sort_coordinates(input_lat, input_lon, new_list)
+print(len(sorted_coordinates_rko))
+
+######
+
+def remove_elements1(first_list, second_list, value, value1):
+    indices_to_remove = [i for i, element in enumerate(second_list) if element == value or element == value1]
+    for index in reversed(indices_to_remove):
+        del first_list[index]
+    return first_list
+
+first_list = tuple_list1
+second_list = list_for_kep
+value_to_remove = 'null'
+value_to_remove1 = 'False'
+
+new_list = remove_elements1(first_list, second_list, value_to_remove, value_to_remove1)
+
+sorted_coordinates_kep = sort_coordinates(input_lat, input_lon, new_list)
+
+print(len(sorted_coordinates_kep))
+
+
